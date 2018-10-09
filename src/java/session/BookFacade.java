@@ -6,6 +6,7 @@
 package session;
 
 import entity.Book;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -27,6 +28,10 @@ public class BookFacade extends AbstractFacade<Book> {
 
     public BookFacade() {
         super(Book.class);
+    }
+
+    public List<Book> findActived(boolean active) {
+        return em.createQuery("SELECT b FROM Book b WHERE b.active =:active").setParameter("active", active).getResultList();
     }
     
 }

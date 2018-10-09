@@ -63,7 +63,7 @@ public class Library extends HttpServlet {
             request.setAttribute("reader", reader);
             request.getRequestDispatcher("/page2.jsp").forward(request, response);
         }else if("/showBooks".equals(path)){
-            List<Book> listBooks = bookFacade.findAll();
+            List<Book> listBooks = bookFacade.findActived(true);
             request.setAttribute("listBooks", listBooks);
             request.getRequestDispatcher("/listBooks.jsp").forward(request, response);
         }else if("/showReader".equals(path)){
@@ -71,7 +71,7 @@ public class Library extends HttpServlet {
             request.setAttribute("listReader", listReader);
             request.getRequestDispatcher("/listReader.jsp").forward(request, response);
         }else if("/library".equals(path)){
-            request.setAttribute("listBooks", bookFacade.findAll());
+            request.setAttribute("listBooks", bookFacade.findActived(true));
             request.setAttribute("listReader", readerFacade.findAll());
             request.getRequestDispatcher("/library.jsp").forward(request, response);
         }else if("/showTakeBook".equals(path)){
@@ -101,8 +101,14 @@ public class Library extends HttpServlet {
         }else if("/deleteBook".equals(path)){
             String deleteBookId = request.getParameter("deleteBookId");
             Book book = bookFacade.find(new Long(deleteBookId));
-            bookFacade.remove(book);
-            List<Book> listBooks = bookFacade.findAll();
+            book.setActive(Boolean.FALSE);
+            bookFacade.edit(book);
+//            bookFacade.remove(book);
+//            List<History>histories=historyFacade.fineByBook(book);
+//            for (History history:histories){
+//            historyFacade.remove(history);}
+//            bookFacade.remove(book);
+            List<Book> listBooks = bookFacade.findActived(true);
             request.setAttribute("listBooks", listBooks);
             request.getRequestDispatcher("/listBooks.jsp").forward(request, response);
         }

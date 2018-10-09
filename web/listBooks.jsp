@@ -15,9 +15,9 @@
     <body>
         <h1>Список книг:</h1>
         <ul>
-            <c:forEach var="book" items="${listBooks}">
+            <c:forEach var="book" items="${listBooks}" varStatus="count">
                 <li>
-                    ${book.nameBook} ${book.author} 
+                    ${count.index+1}. ${book.nameBook} ${book.author} 
                     <a href="deleteBook?deleteBookId=${book.id}">Удалить книгу</a>
                 </li>
             </c:forEach>

@@ -24,6 +24,7 @@ public class Book {
     private String author;
     private int yearPublished;
     private String isbn;
+    private Boolean active;
 
     public Book() {
     }
@@ -33,6 +34,11 @@ public class Book {
         this.author = author;
         this.yearPublished = yearPublished;
         this.isbn = isbn;
+        this.active=true;
+    }
+
+    public Book(Boolean active) {
+        this.active = active;
     }
 
     public String getIsbn() {
@@ -67,13 +73,17 @@ public class Book {
         this.yearPublished = yearPublished;
     }
 
+    
+
     @Override
     public int hashCode() {
-        int hash = 3;
-        hash = 89 * hash + Objects.hashCode(this.nameBook);
-        hash = 89 * hash + Objects.hashCode(this.author);
-        hash = 89 * hash + this.yearPublished;
-        hash = 89 * hash + Objects.hashCode(this.isbn);
+        int hash = 7;
+        hash = 67 * hash + Objects.hashCode(this.id);
+        hash = 67 * hash + Objects.hashCode(this.nameBook);
+        hash = 67 * hash + Objects.hashCode(this.author);
+        hash = 67 * hash + this.yearPublished;
+        hash = 67 * hash + Objects.hashCode(this.isbn);
+        hash = 67 * hash + Objects.hashCode(this.active);
         return hash;
     }
 
@@ -101,14 +111,16 @@ public class Book {
         if (!Objects.equals(this.isbn, other.isbn)) {
             return false;
         }
+        if (!Objects.equals(this.id, other.id)) {
+            return false;
+        }
+        if (!Objects.equals(this.active, other.active)) {
+            return false;
+        }
         return true;
     }
 
-    @Override
-    public String toString() {
-        return "Book{" + "nameBook=" + nameBook + ", author=" + author + ", yearPublished=" + yearPublished + ", isbn=" + isbn + '}';
-    }
-
+   
     public Long getId() {
         return id;
     }
@@ -116,5 +128,17 @@ public class Book {
     public void setId(Long id) {
         this.id = id;
     }
-    
+
+    public Boolean getActive() {
+        return active;
+    }
+
+    public void setActive(Boolean active) {
+        this.active = active;
+    }
+@Override
+    public String toString() {
+        return "Book{" + "id=" + id + ", nameBook=" + nameBook + ", author=" + author + ", yearPublished=" + yearPublished + ", isbn=" + isbn + ", active=" + active + '}';
+    }
+   
 }
