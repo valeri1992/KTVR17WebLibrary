@@ -14,6 +14,7 @@
     </head>
     <body>
         <h1>Список выданных книг</h1>
+        ${info}
         <form action="returnBook" method="POST">
             <ul>
                 <c:forEach var="history" items="${takeBooks}">

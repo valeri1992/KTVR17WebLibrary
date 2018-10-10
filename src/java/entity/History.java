@@ -27,9 +27,9 @@ public class History implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @OneToOne(cascade = {CascadeType.MERGE,})
+    @OneToOne(cascade = {CascadeType.MERGE})
     private Book book;
-    @OneToOne(cascade = CascadeType.DETACH)
+    @OneToOne()
     private Reader reader;
     @Temporal(TemporalType.TIMESTAMP)
     private Date dateBegin;

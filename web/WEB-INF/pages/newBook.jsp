@@ -22,6 +22,8 @@
             <input type="text" name="yearPublished"><br>
              ISBN:<br>
             <input type="text" name="isbn"><br>
+             Количество экземпляров:<br>
+            <input type="text" name="count"><br>
             <br>
             <input type="submit" value="Добавить">
         </form><br>
