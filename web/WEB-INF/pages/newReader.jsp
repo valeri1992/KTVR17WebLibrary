@@ -23,6 +23,13 @@
              Город<br>
             <input type="text" name="city"><br>
             <br>
+             Login<br>
+            <input type="text" name="login"><br>
+             Password<br>
+            <input type="text" name="password1"><br>
+              Повтор Password<br>
+            <input type="text" name="password2"><br>
+            <br>
             <input type="submit" value="Добавить">
         </form><br>
         

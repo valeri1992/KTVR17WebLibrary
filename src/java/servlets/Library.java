@@ -76,7 +76,15 @@ public class Library extends HttpServlet {
             String surname = request.getParameter("surname");
             String phone = request.getParameter("phone");
             String city = request.getParameter("city");
-            Reader reader = new Reader(name, surname, phone, city);
+            String login = request.getParameter("login");
+            String password1 = request.getParameter("password1");
+            String password2 = request.getParameter("password2");
+            if(!password1.equals(password2)){
+                request.setAttribute("info","Неправильный логин или пароль");
+                request.getRequestDispatcher(PageReturner.getPage("welcom")).forward(request, response);
+                break;
+            }
+            Reader reader = new Reader(name, surname, phone, city, login, password1);
             readerFacade.create(reader);
             request.setAttribute("reader", reader);
             request.getRequestDispatcher(PageReturner.getPage("welcom")).forward(request, response);
