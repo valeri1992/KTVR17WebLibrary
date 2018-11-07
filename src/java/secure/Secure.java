@@ -6,14 +6,17 @@
 package secure;
 
 import static com.sun.corba.se.spi.presentation.rmi.StubAdapter.request;
+import entity.Reader;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
 import javax.ejb.EJB;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import session.ReaderFacade;
 import session.RoleFacade;
 import session.UserRolesFacade;
 import util.PageReturner;
@@ -22,9 +25,16 @@ import util.PageReturner;
  *
  * @author pupil
  */
-@WebServlet(name = "Secure", urlPatterns = {"/newRole","/addRole"})
+@WebServlet(name = "Secure", urlPatterns = {
+    "/newRole",
+    "/addRole",
+    "/editUsersRole",
+    "/addUserRole"
+})
 public class Secure extends HttpServlet {
 @EJB RoleFacade roleFacade;
+@EJB ReaderFacade readerFacade;
+@EJB UserRolesFacade userRolesFacade;
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -51,15 +61,39 @@ public class Secure extends HttpServlet {
                     Role role = new Role();
                     role.setName(nameRole.toUpperCase());
                     try {
+                        if(!role.getName().isEmpty()){//pustaja
                         roleFacade.create(role);
+                    }
                     } catch (Exception e) {
                         request.setAttribute("info", "Такая роль уже существует");
                     }
                     request.getRequestDispatcher(PageReturner.getPage("newRole")).forward(request, response);
                     break;
-            }
-    
-        
+           
+                case "/editUsersRole":
+                    List<Reader>listUsers=readerFacade.findAll();
+                    List<Role>listRoles=roleFacade.findAll();
+                    request.setAttribute("listUsers",listUsers);
+                    request.setAttribute("listRoles",listRoles);
+                    request.getRequestDispatcher(PageReturner.getPage("editUsersRole")).forward(request, response);
+                    break;
+                case "/addUserRole":
+                    String userId=request.getParameter("user");
+                    String roleId=request.getParameter("role");
+                    Reader reader=readerFacade.find(new Long(userId));
+                    Role roleToUser=roleFacade.find(new Long(roleId));
+                    UserRoles ur=new UserRoles(reader,roleToUser);
+                    //посмотреть в ur.role.getName
+                    SecureLogic sl=new SecureLogic();
+                    sl.addRoleToUser(ur);
+                    userRolesFacade.create(ur);
+                    List<Reader>newListUsers=readerFacade.findAll();
+                    List<Role>newListRoles=roleFacade.findAll();
+                    request.setAttribute("listUsers",newListUsers);
+                    request.setAttribute("listRoles",newListRoles);
+                    request.getRequestDispatcher(PageReturner.getPage("editUsersRole")).forward(request, response);
+                    break;
+        } 
     }
 
 

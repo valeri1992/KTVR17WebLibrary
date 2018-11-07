@@ -27,7 +27,7 @@
             <br>
             <input type="submit" value="Добавить">
         </form><br>
-        
+         <a href="welcom">На главную </a>
         
     </body>
 </html>

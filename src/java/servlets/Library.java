@@ -27,7 +27,7 @@ import util.PageReturner;
  *
  * @author Melnikov
  */
-@WebServlet(name = "Library", urlPatterns = {
+@WebServlet(name = "Library", urlPatterns = {"/welcom",
     "/newBook",
     "/addBook",
     "/newReader",
@@ -39,6 +39,7 @@ import util.PageReturner;
     "/showTakeBook",
     "/returnBook",
     "/deleteBook",
+   
     
 })
 public class Library extends HttpServlet {
