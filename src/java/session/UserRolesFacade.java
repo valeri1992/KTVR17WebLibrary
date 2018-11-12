@@ -5,6 +5,8 @@
  */
 package session;
 
+import entity.Reader;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -28,5 +30,12 @@ public class UserRolesFacade extends AbstractFacade<UserRoles> {
     public UserRolesFacade() {
         super(UserRoles.class);
     }
+        public List <UserRoles> findByReader(Reader reader) {
+        return em.createQuery("SELECT ur FROM UserRoles ur WHERE ur.reader=:reader")
+                .setParameter("reader", reader)
+                .getResultList();
+    }
     
 }
+    
+

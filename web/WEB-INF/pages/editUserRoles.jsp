@@ -14,7 +14,7 @@
     </head>
     <body>
         <h1>Назначение ролей</h1>
-        <form action="addUserRole" method="POST">
+        <form action="changeUserRole" method="POST">
             <select name="user">
                 <c:forEach var="user" items="${listUsers}">
                     <option value="${user.id}">${user.login}</option>

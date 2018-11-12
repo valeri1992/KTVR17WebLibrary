@@ -28,5 +28,13 @@ public class ReaderFacade extends AbstractFacade<Reader> {
     public ReaderFacade() {
         super(Reader.class);
     }
+        public Reader findByLogin(String login) {
+        try{
+        return (Reader) em.createQuery("SELECT r FROM Reader r WHERE r.login=:login")
+                .setParameter("login", login)
+                .getSingleResult();
+        }catch(Exception e){
+            return null;
+        }
     
-}
+}}
