@@ -37,7 +37,7 @@ private RoleFacade roleFacade;
 
    public void addRoleToUser(UserRoles ur){//добавление ролей пользователей
         if(ur.getRole().getName().equals("ADMIN")){
-            this.deleteRoleToUser(ur);
+            this.deleteRoleToUser(ur.getReader());
             userRolesFacade.create(ur);
             Role addNewRole = roleFacade.findRoleByName("USER");
             UserRoles addedNewRoles = new UserRoles(ur.getReader(),addNewRole);
@@ -48,8 +48,8 @@ private RoleFacade roleFacade;
         }
         }
    
-   public void deleteRoleToUser(UserRoles ur){
-            List<UserRoles> deleteUserRoles = userRolesFacade.findByReader(ur.getReader());
+   public void deleteRoleToUser(Reader user){
+            List<UserRoles> deleteUserRoles = userRolesFacade.findByReader(user);
             int n = deleteUserRoles.size();
            for(int i=0;i<n;i++){
                userRolesFacade.remove(deleteUserRoles.get(i));

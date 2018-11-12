@@ -13,15 +13,16 @@
     </head>
     <body>
            <h1>Войдите</h1>
-        ${info}
+           ${info}<br>
         <form action="login" method="POST" name="form1" id="_form1">
             Логин:<br>
             <input type="text" name="login"><br>
             <br>
             Пароль:<br>
-            <input type="text" name="password"><br>
+            <input type="password" name="password"><br>
             <br>
             <input type="submit" value="Войти">
         </form><br>
+              <a href="welcom">На главную </a>
     </body>
 </html>

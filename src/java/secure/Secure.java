@@ -5,10 +5,8 @@
  */
 package secure;
 
-import static com.sun.corba.se.spi.presentation.rmi.StubAdapter.request;
 import entity.Reader;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -81,23 +79,35 @@ public class Secure extends HttpServlet {
         SecureLogic sl = new SecureLogic();
         if(null != path)
             switch (path) {
-//        case "/showLogin":
-//                request.getRequestDispatcher(PageReturner.getPage("showLogin")).forward(request, response);
-//            break;
-//        case "/login":
-//            String login = request.getParameter("login");
-//            String password = request.getParameter("password");
-//            Reader user = readerFacade.findByLogin(login);
-//            request.setAttribute("info", "Нет такого пользователя");
-//            if(user != null)
-//                if(password.equals(user.getPassword())){
-//                    session = request.getSession(true);
-//                    session.setAttribute("user", user);
-//                    request.setAttribute("info", "Вы успешно вошли в систему!");
-//                }
-//            request.getRequestDispatcher(PageReturner.getPage("welcome")).forward(request, response);
-//            break;
+        case "/showLogin":
+                request.getRequestDispatcher(PageReturner.getPage("showLogin")).forward(request, response);
+                break;
+        case "/login":
+            String login = request.getParameter("login");
+            String password = request.getParameter("password");//по логину найти user
+            request.setAttribute("info", "Нет такого пользователя");
+            regUser = readerFacade.findByLogin(login);
+            if (regUser == null) {
+
+                request.getRequestDispatcher(PageReturner.getPage("showLogin")).forward(request, response);
+                 break;
+            }
+
+        if (password.equals(regUser.getPassword())) {
+            session = request.getSession(true);
+            session.setAttribute("user", regUser);
+            request.setAttribute("info", "Привет"+regUser.getLogin()+ "Вы успешно вошли в систему!");
+         request.getRequestDispatcher(PageReturner.getPage("welcome")).forward(request, response);
+         break;
+        }
+        
+            request.getRequestDispatcher(PageReturner.getPage("showLogin")).forward(request, response);
+        break;
+        
         case "/newRole":
+            regUser=(Reader)session.getAttribute("regUser");
+            if("ADMIN".equals(sl.getRole(regUser))){
+            }
             request.getRequestDispatcher(PageReturner.getPage("newRole")).forward(request, response);
             break;
         case "/addRole":
@@ -135,13 +145,23 @@ public class Secure extends HttpServlet {
 //                request.getRequestDispatcher(PageReturner.getPage("showLogin")).forward(request, response);
 //                break;
 //            }
+            String setButton=request.getParameter("setButton");
+             String deleteButton=request.getParameter("deleteButton");
             String userId = request.getParameter("user");
             String roleId = request.getParameter("role");
            // if(request.getParameter("setButton") != null){
                 Reader reader = readerFacade.find(new Long(userId));
                 Role roleToUser = roleFacade.find(new Long(roleId));
                 UserRoles ur = new UserRoles(reader, roleToUser);
-                sl.addRoleToUser(ur);
+                
+                
+                if(setButton !=null){
+                    sl.addRoleToUser(ur);
+                     }
+                if(setButton !=null){
+                    sl.deleteRoleToUser(ur.getReader());
+                     }
+//                sl.addRoleToUser(ur);
 //            }else if(request.getParameter("deleteButton") != null){
 //                Reader reader = readerFacade.find(new Long(userId));
 //                Role roleToUser = roleFacade.find(new Long(roleId));
