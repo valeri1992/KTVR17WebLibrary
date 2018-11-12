@@ -6,16 +6,18 @@
 package session;
 
 import entity.Reader;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import secure.UserRoles;
 
 /**
  *
- * @author Melnikov
+ * @author pupil
  */
 @Stateless
-public class ReaderFacade extends AbstractFacade<Reader> {
+public class UserRolesFacade extends AbstractFacade<UserRoles> {
 
     @PersistenceContext(unitName = "KTVR17WebLibraryPU")
     private EntityManager em;
@@ -25,16 +27,15 @@ public class ReaderFacade extends AbstractFacade<Reader> {
         return em;
     }
 
-    public ReaderFacade() {
-        super(Reader.class);
+    public UserRolesFacade() {
+        super(UserRoles.class);
     }
-        public Reader findByLogin(String login) {
-        try{
-        return (Reader) em.createQuery("SELECT r FROM Reader r WHERE r.login=:login")
-                .setParameter("login", login)
-                .getSingleResult();
-        }catch(Exception e){
-            return null;
-        }
+        public List <UserRoles> findByReader(Reader reader) {
+        return em.createQuery("SELECT ur FROM UserRoles ur WHERE ur.reader=:reader")
+                .setParameter("reader", reader)
+                .getResultList();
+    }
     
-}}
+}
+    
+

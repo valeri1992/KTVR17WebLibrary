@@ -28,5 +28,8 @@
             </select>
                 <button type="submit" name="takeBook">Выдать книгу</button>
         </form>
+        
+        
+         <a href="welcom">На главную </a>
     </body>
 </html>
