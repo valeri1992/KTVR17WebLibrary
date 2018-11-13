@@ -43,57 +43,65 @@ private RoleFacade roleFacade;
             UserRoles addedNewRoles = new UserRoles(ur.getReader(),addNewRole);
             userRolesFacade.create(addedNewRoles);
         }else if(ur.getRole().getName().equals("USER")){
-            if(!this.isRole(ur.getReader(), ur.getRole().getName()))
+           
             userRolesFacade.create(ur);
         }
         }
    
    public void deleteRoleToUser(Reader user){
-            List<UserRoles> deleteUserRoles = userRolesFacade.findByReader(user);
+            List<UserRoles> deleteUserRoles = userRolesFacade.findByUser(user);
             int n = deleteUserRoles.size();
            for(int i=0;i<n;i++){
                userRolesFacade.remove(deleteUserRoles.get(i));
             }
     }
-    public boolean isRole(Reader reader, String roleName){
-        List<UserRoles> listUserRoles = userRolesFacade.findByReader(reader);
-        Role role = roleFacade.findRoleByName(roleName);
-        int n = listUserRoles.size();
-        for(int i = 0; i < n; i++){
-            if(listUserRoles.get(i).getRole().equals(role)){
-                return true;
-            }
-        }
-        return false;
-    }
+//    public String isRole(String roleName, HttpServletReguest request){
+//      SecureLogic sl=new SecureLogic();
+//      Reader regUser=(Reader)
+//        int n = listUserRoles.size();
+//       for(int i = 0; i < n; i++){
+//           if(listUserRoles.get(i).getRole().equals(role)){
+//                return true;
+//            }
+//       }
+//        return false;
+//    }
     /**
      * Проходим по списку userRoles, который содержит список ролей пользователя
      *  Проходим по списку ролей и при соответствии роли ADMIN возвращаем (return) роль
      *  Проходим по списку ролей и при соответствии роли USER возвращаем (return) роль
      * Если никто не вернул роль, то возвращает null
-     * @param user
+     * @param 
      * @return top role of user
      */
-    public Role getRole(Reader user){
-        List<UserRoles> userRoles = userRolesFacade.findByReader(user);
-        List<Role>listRoles = roleFacade.findAll();
-        int n = userRoles.size();
-        int k = listRoles.size();
+   public String getRole(Reader regUser){
+        List<UserRoles> listUserRoles = userRolesFacade.findByUser(regUser);
+//        List<Role>listRoles = roleFacade.findAll();
+//        int n = userRoles.size();
+        int n = listUserRoles.size();
+        
         for(int i=0;i<n;i++){
-            for(int j=0;j<k;j++){
-                if(listRoles.get(j).equals(userRoles.get(i).getRole()) && "ADMIN".equals(listRoles.get(j).getName())){
-                    return listRoles.get(j);
-                }
-            }
-            for(int j=0;j<k;j++){
-                if(listRoles.get(j).equals(userRoles.get(i).getRole()) && "USER".equals(listRoles.get(j).getName())){
-                    return listRoles.get(j);
-                }
+            if( "ADMIN".equals(listUserRoles.get(i).getRole().getName())){
+                return listUserRoles.get(i).getRole().getName();
             }
         }
-        return null;
-    }
+       for(int i=0;i<n;i++){
+            if("USER".equals(listUserRoles.get(i).getRole().getName())){
+                return listUserRoles.get(i).getRole().getName();
+            }
+        }
+//            public void deleteRoleToUser(Reader user){
+//        List<UserRoles> listUserRoles = userRolesFacade.findByUser(user);
+//        int n = listUserRoles.size();
+//        for(int i=0; i<n; i++){
+//            userRolesFacade.remove(listUserRoles.get(i));
+//        }
+        
+   return null;
+   }
+}
+    
         
     
-}
+
 
