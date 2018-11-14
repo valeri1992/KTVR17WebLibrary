@@ -1,8 +1,3 @@
-<%-- 
-    Document   : page2
-    Created on : Sep 26, 2018, 9:37:07 AM
-    Author     : Melnikov
---%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -14,11 +9,14 @@
     <body>
         <h1>Навигация по сайту</h1>
         ${info}<br>
-        <a href="newBook">добавить книгу</a><br>
-        <a href="newReader">добавить читателя</a><br>
-        <a href="showBooks">Список книг</a><br>
-        <a href="showReader">Список читателей</a><br>
-        <a href="library">Выдать книгу</a><br>
+        <br>
+        <a href="showLogin">Войти в систему</a><br><br>
+        <a href="logout">Выйти из системы</a><br><br>
+        <a href="newBook">добавить книгу</a><br><br>
+        <a href="newReader">добавить читателя</a><br><br>
+        <a href="showBooks">Список книг</a><br><br>
+        <a href="showReader">Список читателей</a><br><br>
+        <a href="library">Выдать книгу</a><br><br>
         <a href="showTakeBook">Список выданных книг</a>
         <br>
          <br><br>

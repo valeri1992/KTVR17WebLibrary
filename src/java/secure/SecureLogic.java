@@ -90,7 +90,7 @@ private RoleFacade roleFacade;
                 return listUserRoles.get(i).getRole().getName();
             }
         }
-//            public void deleteRoleToUser(Reader user){
+//            public void deleteRoleToUser(Reader regUser){
 //        List<UserRoles> listUserRoles = userRolesFacade.findByUser(user);
 //        int n = listUserRoles.size();
 //        for(int i=0; i<n; i++){

@@ -23,6 +23,7 @@
             <br>
             <input type="submit" value="Войти">
         </form><br>
-              <a href="welcom">На главную </a>
+              <a href="welcome">На главную </a><br>
+               <a href="newReader">Зарегистрироваться</a>
     </body>
 </html>
