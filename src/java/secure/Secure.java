@@ -21,6 +21,7 @@ import javax.servlet.http.HttpSession;
 import session.ReaderFacade;
 import session.RoleFacade;
 import session.UserRolesFacade;
+import util.EncriptPass;
 import util.PageReturner;
 
 /**
@@ -50,7 +51,10 @@ public class Secure extends HttpServlet {
     public void init(ServletConfig config) throws ServletException {
         List<Reader> listReader = readerFacade.findAll();
         if (listReader.isEmpty()) {
-            Reader reader = new Reader("Сидор", "Сидоров", "45454545", "К-Ярве", "admin", "admin");
+            EncriptPass ep = new EncriptPass();
+            String salts = ep.createSalts();
+            String encriptPass = ep.setEncriptPass("admin",salts);
+            Reader reader = new Reader("Сидор", "Сидоров", "45454545", "К-Ярве", "admin", encriptPass, salts);
             readerFacade.create(reader);
             Role role=new Role();
             role.setName("ADMIN");
@@ -67,20 +71,7 @@ public class Secure extends HttpServlet {
         }
     }
 
-    @Override
-    public void init() throws ServletException {
-
-        List<Role> roles = roleFacade.findAll();
-        if (roles.isEmpty()) {
-            Role roleAdmin = new Role();
-            roleAdmin.setName("ADMIN");
-            roleFacade.create(roleAdmin);
-            Reader admin = new Reader("admin", "admin", "4545454", "Йыхви", "admin", "admin");
-            readerFacade.create(admin);
-            UserRoles ur = new UserRoles(admin, roleAdmin);
-            userRolesFacade.create(ur);
-        }
-    }
+    
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -122,11 +113,14 @@ public class Secure extends HttpServlet {
                         request.getRequestDispatcher(PageReturner.getPage("showLogin")).forward(request, response);
                         break;
                     }
+                    EncriptPass ep = new EncriptPass();
+                    String salts = regUser.getSalts();
+                    String encriptPass = ep.setEncriptPass(password,salts);
 
-                    if (password.equals(regUser.getPassword())) {
+                    if (encriptPass.equals(regUser.getPassword())) {
                         session = request.getSession(true);//создаем сессию
                         session.setAttribute("regUser", regUser);
-                        request.setAttribute("info", "Привет ! \n" + regUser.getLogin() + " \n Вы успешно вошли в систему!");
+                        request.setAttribute("info", "Приветствую Вас ! \n" + regUser.getLogin() + " \n Вы успешно вошли в систему!");
                         request.getRequestDispatcher(PageReturner.getPage("welcome")).forward(request, response);
                         break;
                     }
@@ -200,9 +194,18 @@ public class Secure extends HttpServlet {
                 if(setButton !=null){
                     sl.deleteRoleToUser(ur.getReader());
                 }
-                
+               mapUsers=new HashMap<>();
+               listUsers= readerFacade.findAll();
+               n=listUsers.size();
+               for(int i=0;i<n;i++){
+                     mapUsers.put(listUsers.get(i), sl.getRole(listUsers.get(i)));
+               }
+                request.setAttribute("mapUsers", mapUsers);
+            List<Role> newlistRoles = roleFacade.findAll();
+            request.setAttribute("listRoles", newlistRoles);
             request.getRequestDispatcher(PageReturner.getPage("editUserRoles")).forward(request, response);
             break;
+            
 
 
     }

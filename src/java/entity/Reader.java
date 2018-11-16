@@ -33,14 +33,19 @@ public class Reader {
     public Reader() {
     }
 
-    public Reader( String name, String surname, String phone, String city, String login, String password) {
+    public Reader(String name, String surname, String phone, String city, String login, String password, String salts) {
         this.name = name;
         this.surname = surname;
         this.phone = phone;
         this.city = city;
         this.login = login;
         this.password = password;
-        
+        this.salts = salts;
+    }
+  
+
+    public String getSalts() {
+        return salts;
     }
 
   
@@ -52,13 +57,7 @@ public class Reader {
         this.city = city;
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
+   
 
     public String getName() {
         return name;
@@ -135,9 +134,20 @@ public class Reader {
     }
 
     @Override
+
+   
     public String toString() {
-        return "Reader{" + "id=" + id + ", name=" + name + ", surname=" + surname + ", phone=" + phone + ", city=" + city + ", login=" + login + ", password=" + password + ", salts=" + salts + '}';
+        return "Reader{" + "name=" + name + ", surname=" + surname + ", phone=" + phone + ", city=" + city + ", login=" + login + ", password=" + password + ", salts=" + salts + '}';
     }
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+ 
+   
    
 }
